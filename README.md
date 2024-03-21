@@ -1,13 +1,3 @@
-Label audio files from spoken information inside them
-
-1. Use a bash script on an input folder of audio files to generate transcript.json files
-2. Run the Python script with the path to a folder with transcript.json files and the path to models.json file as input arguments
-3. The Python script will:
-   - Generate file names in BIDS format
-   - Generate JSON files containing BIDS-formatted header data
-   - Rename the files (files are not copied, make sure to do this beforehand for testing)
-
----
 
 ## Audio Labeling Tool
 
