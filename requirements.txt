@@ -1,3 +1,0 @@
-pydub
-ibm_cloud_sdk_core
-ibm_watson

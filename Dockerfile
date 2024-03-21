@@ -15,4 +15,4 @@ COPY --from=build /app /app
 
 ENV PYTHONPATH=/python-env
 WORKDIR /app
-CMD ["main.py"]
+CMD ["make_header.py"]

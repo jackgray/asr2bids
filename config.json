@@ -1,0 +1,80 @@
+{
+    "projects": [
+        "more",
+        "sex differences",
+        "ERP"
+    ],
+    "tasks": [
+        "cvlt",
+        "fluency"
+    ],
+    "interviewers": {
+        "Lily": {
+            "subj_preword": "ID",
+            "subj_index": 7,
+            "taskname_index": null,
+            "session_index": 11
+        },
+        "Gabby": {
+            "subj_index": 6
+        },
+        "Amelia": {
+            "subj_preword": "subject"
+        },
+        "Natalie": {
+            "subj_index": 5,
+            "subj_preword": "ID"
+        },
+        "Pedro": {
+            "subj_index": 4
+        },
+        "Pasia": {
+            "subj_index": 7,
+            "taskname_spc_index": 15,
+            "session_spc_index": 17,
+            "subj_preword": "participant",
+            "subj_names": "",
+            "dot_index1": ""
+        },
+        "Pias": {
+            "subj_preword": "subject"
+        },
+        "Piaz": {
+            "subj_preword": "subject"
+        }
+    },
+    "keywords": [
+        "negative",
+        "memory",
+        "remember",
+        "recall",
+        "EEG",
+        "consequences",
+        "positive",
+        "ERP",
+        "quitting",
+        "clean",
+        "stress",
+        "craving",
+        "group",
+        "second",
+        "part",
+        "mindful",
+        "reappraisal",
+        "coping",
+        "cocaine",
+        "heroin",
+        "3-month followup",
+        "MRI",
+        "movie",
+        "detail",
+        "words",
+        "alphabet",
+        "read",
+        "list",
+        "words",
+        "alternate",
+        "CVLT",
+        "alt"
+    ]
+}

@@ -26,14 +26,13 @@ print(f"\nRenaming these files based on transcript contents: \n{transcript_files
 # Define parse keywords (normalize everything to lowercase)
 subj_delims = ['participant', 'subject', 'ID']
     
-fuckup_count = 0
+error_count = 0
 def matchInterviewer(lst1, lst2):
     return set(lst1).intersection(lst2)
 
-
     
 def parseHeader(transcript, interviewers):
-    fuckup_count = 0
+    error_count = 0
     proj, subj, taskname, acq, session = 'NA', 'NA', 'NA', 'NA', 'NA'
     
     header_words = [word.strip('.,') for word in transcript.split()]
@@ -72,7 +71,7 @@ def parseHeader(transcript, interviewers):
         
             
         
-        print(f"\nPulled subject ID (is this right?): {subj}")
+        print(f"\nPulled subject ID (check if this right?): {subj}")
     
         # try:
         #     print("trying something else")
@@ -97,14 +96,14 @@ def parseHeader(transcript, interviewers):
             #     subj = 'S' + subj.split('S')[-1]
             #     print('Tried to fix incomplete subject ID --> ', subj)
         else:
-            proj = 'ERP'       
+            proj = 'erp'       
                     
                         # subj = word.intersection(subj)
         
             # exit()
     
     # TASK NAME 
-    tasks = ['CVLT', 'fluency']
+    tasks = ['cvlt', 'fluency']
     try:
         taskname = ''.join(set(header_words).intersection(tasks))    # Finds if string exists in both lists; ''.join() converts set object to string
         print("\nMatched taskname in provided list: ", taskname)
@@ -122,7 +121,7 @@ def parseHeader(transcript, interviewers):
                     taskname = 'freetalk'
             except:
                 print("Still couldn't find task name")
-                fuckup_count+=1
+                error_count+=1
     # ACQ
     try:
         # First try to grab part right after task name
@@ -167,36 +166,32 @@ def parseHeader(transcript, interviewers):
     })
 
     return header_json
-# def makeHeaderfile(raw_hdr_txt):
-#     sentences = raw_hdr_txt.split('.')
-#     words = raw_hdr_txt.split(' ')
- 
-#     formatted_header = dict(
-#     {
-#         "sentences": {"a sentence": {"words": ["their", "words"]}},
-#         "words": raw_hdr_txt.split(' '),       
-#     })
-#     count=0
-#     for sentence in sentences:
-#         count+=1
-#         words = sentence.split(' ')
-#         formatted_header["sentences"][sentence] = words
+
+    # def makeHeaderfile(raw_hdr_txt):
+    #     sentences = raw_hdr_txt.split('.')
+    #     words = raw_hdr_txt.split(' ')
     
-#     print(formatted_header)
-    
-#     # Get name
-#     interviewer_name = formatted_header.items()
+    #     formatted_header = dict(
+    #     {
+    #         "sentences": {"a sentence": {"words": ["their", "words"]}},
+    #         "words": raw_hdr_txt.split(' '),       
+    #     })
+    #     count=0
+    #     for sentence in sentences:
+    #         count+=1
+    #         words = sentence.split(' ')
+    #         formatted_header["sentences"][sentence] = words
         
-#     print('\n\n\ndoopdoop\n', interviewer_name)
-   
-# Function for individual file (to be looped below)
-def changeName(transcript):
-    print()
+    #     print(formatted_header)
+        
+    #     # Get name
+    #     interviewer_name = formatted_header.items()
+            
+
 
 # Each researcher has their own format, so we will first find the researcher
 # name to determine which parsing model to try     
 # Make parse models for each interviewer based on their style (NOTE: pull these into external mountable config files)
-
 
 # Sort input files
 for file in transcript_files:
@@ -211,7 +206,7 @@ for file in transcript_files:
         header_json = parseHeader(transcript, interviewers)
         print(json.dumps(header_json, indent=4))
         
-        outfile = filename + "_proj-" + header_json["project"] + '_sub-' + header_json["subject"] + "_ses-" + header_json["session"] + "_task-" + header_json["taskname"] + "_acq-" + header_json["acquisition"] + "_audio.json" #+ file.split('_')[0].split('/')[1] + ".json"
+        outfile = f'sub-{header_json["subject"]}{header_json['project']}_ses-{header_json["session"]}_task-{header_json["taskname"]}_acq-{header_json["acquisition"]}_audio.json' #+ file.split('_')[0].split('/')[1] + ".json"
         print(outfile)
         json.dump(header_json, open(outfile, 'w'), indent = 6)  # Write to file
         
@@ -219,21 +214,22 @@ for file in transcript_files:
         print(f"\n\nFailed to parse the raw header info:\nError output: {e}\n\ninput text: {transcript}")
     
 
-# Do the thing
-#     with open(globpath, 'rb') as audio_file:
+    # Do the thing
+    if not dryrun:
+        with open(globpath, 'rb') as audio_file:
 
-#         payload = json.loads(
-#             json.dumps(
-#                 model.transcribe(
-#                    audio_file, indent=2)))
-#         print("payload: ", payload)
+            payload = json.loads(
+                json.dumps(
+                    model.transcribe(
+                    audio_file, indent=2)))
+            print("payload: ", payload)
 
-# # stores transcribed text
+    # stores transcribed text
 
-#     try:
-#         results = payload.get('results').pop().get('alternatives').pop().get('transcript') + str[:]
-#     except Exception as e:
-#         print(f'{e}')
+        try:
+            results = payload.get('results').pop().get('alternatives').pop().get('transcript') + str[:]
+        except Exception as e:
+            print(f'{e}')
         
-#     print(f'\nResults:\n{results}')
-print("You fucked up this many times: ", fuckup_count)
+    print(f'\nResults:\n{results}')
+print("Number of errors: ", error_count)
