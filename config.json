@@ -1,13 +1,50 @@
 {
     "projects": [
-        "more",
-        "sex differences",
-        "ERP"
+        {
+            "more": {
+                "aka": ["more"]
+            },
+            "sxdf": {
+                "aka": ["sex diff", "sex differences"]
+            },
+            "erp": {
+                "aka": ["ERP"]
+            },
+            "tdcs1": {
+                "aka": ["tdcs phase 1"] 
+            },
+            "tdcs2": {
+                "aka": ["tdcs phase 2"]
+            },
+            "athero": {
+                "aka": ["atherosclerosis"]
+            },
+            "mphx": {
+                "aka": ["mph"]
+            }
+        }
     ],
+
     "tasks": [
-        "cvlt",
-        "fluency"
+        {
+            "cvlt": {
+                "aka": ["cvlt"]
+            },
+            "fluency": {
+                "aka": ["fluency", "fruency"]
+            },
+            "freetalk": {
+                "aka": ["free talk"]
+            },
+            "movietalk": {
+                "aka": ["movie", "movie talk"] 
+            },
+            "sst": {
+                "aka": ["stop signal","stopsignal"]
+            }
+        }
     ],
+
     "interviewers": {
         "Lily": {
             "subj_preword": "ID",
