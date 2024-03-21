@@ -20,6 +20,9 @@ parser.add_argument("input_directory", metavar="input_directory", type=str, narg
                     help="Path to the input directory containing transcript JSON files")
 parser.add_argument("config_path", metavar="config_path", type=str, nargs="?", default="/config/config.json",
                     help="Path to the configuration JSON file")
+parser.add_argument("dryrun", metavar="dryrun", type=str, nargs="?", default=False,
+                    help="Don't make new files or change labels")
+
 
 args = parser.parse_args()
 
@@ -36,6 +39,7 @@ def load_config(config_path):
         print(f"Invalid JSON format in '{config_path}'.")
         return None
 
+
 def load_input_directory(input_path):
     """Load input directory path."""
     if os.path.isdir(input_path):
@@ -44,13 +48,6 @@ def load_input_directory(input_path):
         print(f"Input directory '{input_path}' not found.")
         return None
 
-transcript_files = glob(inputdir)
-print(f"\nRenaming these files based on transcript contents: \n{transcript_files}")
-
-# Define parse keywords (normalize everything to lowercase)
-subj_delims = ['participant', 'subject', 'ID']
-    
-error_count = 0
 
 def extract_subject(transcript, interviewers):
     """
@@ -202,7 +199,7 @@ def main(input_directory, config_path):
         
 
         # Do the thing
-        if not dryrun:
+        if not args.dryrun:
             with open(globpath, 'rb') as audio_file:
 
                 payload = json.loads(

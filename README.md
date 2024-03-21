@@ -1,67 +1,48 @@
 
-## Audio Labeling Tool
+# Audio Transcribing + Label + Header Generator
 
-This tool assists in labeling audio files based on the spoken information contained within them. It includes both a shell script and a Python script to process the audio files and generate labeled JSON files containing header data.
+This repository contains tools to transcribe audio speech data, label files and create header sidecar files from the transcriptions and parsing rules
 
 
-
-# Whisper Audio Transcription Script
+## Whisper Audio Transcription Script `transcribe_directory.sh`
 
 This script facilitates audio transcription using the Whisper service.
 
-## Usage
+### Usage
 
 ./transcribe_directory.sh <parent_directory> <ASR_model> <clip_duration>
 
 - <parent_directory>: Path to the directory containing audio files to transcribe.
-- <ASR_model>: The ASR model to use for transcription.
+- <ASR_model>: The ASR model to use for transcription (tiny, large) see Whisper Web Service documentation for up to date list of available models
 - <clip_duration> (Optional): Duration of the audio clip to transcribe. If not provided, the entire audio file is transcribed.
 
-## Requirements
+Example: `bash transcribe.sh /path/to/audio_files large 00:00:30
+
+
+### Requirements
 
 - ffmpeg: Required for audio processing.
-- curl: Required for making HTTP requests.
-
-## Caveats and Clarifications
-
-- Ensure that the ASR model specified is compatible with the Whisper service.
-- The script assumes that audio files are in a compatible format for transcription.
-- If <clip_duration> is not provided, the entire audio file is transcribed.
-- Make sure to provide the correct paths to the audio files and the Whisper service endpoint.
-
-## Gotchas
-
-- If audio files are too large, transcription may take a long time or fail.
-- Ensure that the Whisper service is running and accessible from the provided endpoint.
-- Check the ASR model compatibility with the Whisper service.
-
-Replace <parent_directory>, <ASR_model>, and <clip_duration> with appropriate values according to your use case.
-
-./transcribe.sh /path/to/audio_files model_name 00:05:00
-
-This command transcribes audio files in /path/to/audio_files directory using the specified ASR model (model_name) with a clip duration of 5 minutes.
-
-./transcribe.sh /path/to/audio_files model_name
-
-This command transcribes the entire audio files in /path/to/audio_files directory using the specified ASR model (model_name).
+- Docker to run Whisper Webservice endpoint; this script will attempt to start the docker service if it is not running.
+- curl: Required for making HTTP requests to Whisper web service
+- ensure the port mapped in the docker container matches the port defined in the Whisper endpoint
 
 Remember to provide execute permission to the script before running:
 
-chmod +x transcribe.sh
+`chmod +x transcribe.sh`
 
 
-### Python Script (`label_audio.py`)
+## `make_headers.py`
 
 1. **Labeling:** The Python script labels the transcribed audio files based on their content and formats the header data into a standardized format.
 
 2. **Usage:**
 
-`python label_audio.py <transcript_directory> <config.json>`
+`docker run --rm -d -v ./config:/label_audio.py <transcript_directory> <config.json>`
 
 
 3. **Parameters:**
 - `<transcript_directory>`: The directory containing the transcribed JSON files.
-- `<models.json>`: JSON file containing models and configuration settings for parsing the audio content.
+- `<config.json>`: JSON file containing models and configuration settings for parsing the audio content.
 
 4. **Functionality:**
 - The script reads the transcribed JSON files from the specified directory.
@@ -72,11 +53,11 @@ chmod +x transcribe.sh
 ### Workflow
 
 1. **Transcription:**
-- Run the shell script (`transcribe_audio.sh`) on a directory of audio files to generate transcribed JSON files.
+- Run the shell script (`transcribe_directory.sh`) on a directory of audio files to generate transcribed JSON files.
 - Specify the parent directory, ASR model, and optionally, the clip duration.
 
 2. **Labeling:**
-- Execute the Python script (`label_audio.py`) with the path to the directory containing the transcribed JSON files and the models configuration file as input arguments.
+- Execute the Python script (`make_headers.py`) with the path to the directory containing the transcribed JSON files and the models configuration file as input arguments.
 - The Python script parses the transcribed data, extracts relevant header information, and formats it into BIDS-compatible JSON files.
 
 3. **Integration:**
