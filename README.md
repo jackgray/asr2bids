@@ -1,10 +1,11 @@
 
-# Audio Transcribing + Label + Header Generator
+# Transcription ETL -- Audio Transcribing, Header Generation, & File renaming
 
 This repository contains tools to transcribe audio speech data, label files and create header sidecar files from the transcriptions and parsing rules
 
 
-## Whisper Audio Transcription Script `transcribe_directory.sh`
+## Transcribe n seconds of audio files
+`transcribe_directory.sh`
 
 This script facilitates audio transcription using the Whisper service.
 
@@ -16,7 +17,7 @@ This script facilitates audio transcription using the Whisper service.
 - <ASR_model>: The ASR model to use for transcription (tiny, large) see Whisper Web Service documentation for up to date list of available models
 - <clip_duration> (Optional): Duration of the audio clip to transcribe. If not provided, the entire audio file is transcribed.
 
-Example: `bash transcribe.sh /path/to/audio_files large 00:00:30
+Example: `bash transcribe.sh /path/to/audio_files large 00:00:30`
 
 
 ### Requirements
@@ -31,7 +32,9 @@ Remember to provide execute permission to the script before running:
 `chmod +x transcribe.sh`
 
 
-## `make_headers.py`
+## Create Headers / Rename Files
+
+`make_headers.py`
 
 1. **Labeling:** The Python script labels the transcribed audio files based on their content and formats the header data into a standardized format.
 
